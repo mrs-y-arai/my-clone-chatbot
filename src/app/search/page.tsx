@@ -1,6 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import {
+  Title,
+  TextInput,
+  Button,
+  Stack,
+  Paper,
+  Text,
+  Box,
+  List,
+} from "@mantine/core";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -34,34 +44,47 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <h1>ナレッジ検索</h1>
-      <form onSubmit={handleSubmit} className="w-full max-w-md mb-10">
-        <div className="flex flex-col gap-4">
-          <input
-            type="text"
+    <Stack>
+      <Title ta="center" order={1} fz="h2" mb="md">
+        ナレッジ検索
+      </Title>
+
+      <form onSubmit={handleSubmit}>
+        <Box
+          display="flex"
+          style={{ gap: "12px", flexDirection: "column" }}
+          mt="md"
+        >
+          <TextInput
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="テキストを入力してください"
+            label="検索するテキスト"
             required
           />
-          <button
-            type="submit"
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-          >
-            検索
-          </button>
-        </div>
+          <Button type="submit" w="fit-content" mx="auto">
+            検索する
+          </Button>
+        </Box>
       </form>
-      <div>
-        <p>検索結果</p>
-        {result?.map((item) => (
-          <div key={item.id}>
-            <p>{item.content}</p>
-            <p>{item.similarity}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+
+      <Box mt="xl">
+        <Title order={3} size="h4" ta="center" mb="md">
+          検索結果
+        </Title>
+        <List spacing="md" center>
+          {result?.map((item) => (
+            <List.Item key={item.id}>
+              <Paper p="md">
+                <Text>{item.content}</Text>
+                <Text size="sm" c="dimmed" mt="xs">
+                  類似度: {(item.similarity * 100).toFixed(2)}%
+                </Text>
+              </Paper>
+            </List.Item>
+          ))}
+        </List>
+      </Box>
+    </Stack>
   );
 }

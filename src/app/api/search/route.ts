@@ -1,24 +1,8 @@
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
-import { createClient } from "@supabase/supabase-js";
-import { Database } from "~/../../supabase/database.types";
+import { getEmbedding } from "@/utils/getEmbedding";
+import { createSupabase } from "@/libs/supabase";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPEN_AI_KEY,
-});
-
-const supabase = createClient<Database>(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
-async function getEmbedding(text: string) {
-  const embeddings = await openai.embeddings.create({
-    model: "text-embedding-3-small",
-    input: text,
-  });
-  return embeddings.data[0].embedding;
-}
+const supabase = createSupabase();
 
 export async function POST(req: Request) {
   try {
@@ -27,7 +11,7 @@ export async function POST(req: Request) {
 
     const { data, error } = await supabase.rpc("match_embeddings", {
       query_embedding: JSON.stringify(embedding),
-      match_threshold: 0.3,
+      match_threshold: 0.2,
       match_count: 10,
     });
 
