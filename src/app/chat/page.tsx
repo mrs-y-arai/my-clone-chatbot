@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send, Bot, User, ArrowLeft } from "lucide-react";
@@ -14,29 +14,46 @@ interface Message {
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
-
-    const newMessages: Message[] = [
-      ...messages,
-      { role: "user", content: input },
-      {
-        role: "assistant",
-        content:
-          "これはサンプルの応答です。実際のAI応答ロジックを実装してください。",
-      },
-    ];
-
-    setMessages(newMessages);
-    setInput("");
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages.length]);
+
+  const addMessages = (params: { messages: Message[] }) => {
+    setMessages([...messages, ...params.messages]);
+  };
+
+  const handleSend = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    const _input = input;
+    setInput("");
+    addMessages({ messages: [{ role: "user", content: _input }] });
+
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      body: JSON.stringify({ message: _input }),
+    });
+
+    if (!response.ok) {
+      console.error("APIリクエストに失敗しました");
+      return;
     }
+
+    const responseJson = await response.json();
+
+    addMessages({
+      messages: [
+        { role: "user", content: input },
+        { role: "assistant", content: responseJson.data.message },
+      ],
+    });
+    setInput("");
   };
 
   return (
@@ -87,22 +104,22 @@ export default function ChatPage() {
                 </div>
               </div>
             ))}
+            <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-4 border-t">
+          <form className="p-4 border-t" onSubmit={handleSend}>
             <div className="flex gap-4">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
                 placeholder="メッセージを入力..."
                 className="flex-1"
               />
-              <Button onClick={handleSend}>
+              <Button type="submit">
                 <Send className="h-4 w-4" />
               </Button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
