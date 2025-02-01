@@ -2,8 +2,8 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 
 const textSplitter = new RecursiveCharacterTextSplitter({
-  chunkSize: 512,
-  chunkOverlap: 100,
+  chunkSize: 150,
+  chunkOverlap: 15,
 });
 
 export async function loadPdf(file: string | File) {
