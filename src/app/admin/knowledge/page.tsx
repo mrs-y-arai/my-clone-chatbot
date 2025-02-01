@@ -10,6 +10,14 @@ export default function KnowledgePage() {
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    console.log("file", file);
+    if (file) {
+      setFile(file);
+    }
+  };
+
   const handleTextSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -69,22 +77,13 @@ export default function KnowledgePage() {
 
         <form className="p-6 border rounded-lg" onSubmit={handleFileSubmit}>
           <h2 className="text-xl font-semibold mb-4">PDFファイルの登録</h2>
-          <div className="space-y-4">
+          <div className="space-y-4 mb-4">
             <Input
               type="file"
               accept=".pdf"
-              onChange={handleFileSubmit}
-              className="hidden"
-              id="pdf-upload"
+              onChange={handleFileChange}
+              className="mb-4"
             />
-            <label htmlFor="pdf-upload">
-              <div className="border-2 border-dashed rounded-lg p-8 text-center cursor-pointer hover:border-primary transition-colors">
-                <Upload className="mx-auto h-8 w-8 mb-4 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">
-                  クリックしてPDFファイルを選択、またはここにドラッグ＆ドロップしてください
-                </p>
-              </div>
-            </label>
           </div>
           <Button type="submit">
             <Save className="mr-2 h-4 w-4" />
