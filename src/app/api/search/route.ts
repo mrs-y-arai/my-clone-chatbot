@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
     const { data, error } = await supabase.rpc("match_embeddings", {
       query_embedding: JSON.stringify(embedding),
-      match_threshold: 0.2,
+      match_threshold: 0.3,
       match_count: 10,
     });
 

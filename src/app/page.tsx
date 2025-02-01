@@ -1,116 +1,38 @@
-"use client";
-
-import { useState } from "react";
-import {
-  Button,
-  Textarea,
-  Box,
-  Title,
-  Text,
-  Tabs,
-  FileInput,
-} from "@mantine/core";
+import Link from "next/link";
+import { Bot, Settings } from "lucide-react";
 
 export default function Home() {
-  const [text, setText] = useState("");
-  const [file, setFile] = useState<File | null>(null);
-
-  const handleTextSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await fetch("/api/embeddings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text }),
-      });
-      if (!res.ok) throw new Error("送信に失敗しました");
-      setText("");
-      alert("送信しました！");
-    } catch (error) {
-      console.error(error);
-      alert("エラーが発生しました");
-    }
-  };
-
-  const handleFileSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!file) return;
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await fetch("/api/embeddings/pdf", {
-        method: "POST",
-        body: formData,
-      });
-      if (!res.ok) throw new Error("送信に失敗しました");
-      setFile(null);
-      alert("送信しました！");
-    } catch (error) {
-      console.error(error);
-      alert("エラーが発生しました");
-    }
-  };
-
   return (
-    <div>
-      <Title ta="center" order={1} fz="h2" mb="md">
-        AIにデータを登録する
-      </Title>
-      <Text mb="md">
-        データを入力して送信すると、AIにデータを登録することができます。登録したデータはAIの知識として活用され、より自然でスムーズな会話が可能になります。
-      </Text>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-16">
+        <div className="flex flex-col items-center justify-center space-y-12">
+          <div className="flex items-center space-x-2">
+            <Bot className="h-12 w-12 text-primary" />
+            <h1 className="text-4xl font-bold">AIアシスタント</h1>
+          </div>
 
-      <Tabs defaultValue="text">
-        <Tabs.List>
-          <Tabs.Tab value="text">テキスト登録</Tabs.Tab>
-          <Tabs.Tab value="pdf">PDF登録</Tabs.Tab>
-        </Tabs.List>
+          <div className="w-full max-w-4xl">
+            <div className="text-center mb-8">
+              <Link
+                href="/chat"
+                className="inline-block rounded-lg bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
+              >
+                AIとチャットを始める
+              </Link>
+            </div>
 
-        <Tabs.Panel value="text">
-          <form onSubmit={handleTextSubmit}>
-            <Box
-              display="flex"
-              style={{ gap: "12px", flexDirection: "column" }}
-              mt="md"
-            >
-              <Textarea
-                label="登録する知識"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                placeholder="テキストを入力してください"
-                required
-              />
-              <Button w="fit-content" mx="auto" type="submit">
-                登録する
-              </Button>
-            </Box>
-          </form>
-        </Tabs.Panel>
-
-        <Tabs.Panel value="pdf">
-          <form onSubmit={handleFileSubmit}>
-            <Box
-              display="flex"
-              style={{ gap: "12px", flexDirection: "column" }}
-              mt="md"
-            >
-              <FileInput
-                label="PDFファイル"
-                placeholder="PDFファイルを選択してください"
-                accept="application/pdf"
-                value={file}
-                onChange={setFile}
-                required
-              />
-              <Button w="fit-content" mx="auto" type="submit">
-                登録する
-              </Button>
-            </Box>
-          </form>
-        </Tabs.Panel>
-      </Tabs>
+            <div className="text-center">
+              <Link
+                href="/admin"
+                className="inline-flex items-center text-sm text-muted-foreground hover:text-primary"
+              >
+                <Settings className="mr-2 h-4 w-4" />
+                管理画面へ
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
