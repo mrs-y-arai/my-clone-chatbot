@@ -43,6 +43,6 @@
 
 ## イメージ動画
 
-![イメージ動画](/public/data-save.mp4)
+https://github.com/mrs-y-arai/my-clone-chatbot/blob/main/public/chat.mp4
 
 ![イメージ動画](./public/chat.mp4)
