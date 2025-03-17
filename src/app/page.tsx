@@ -17,7 +17,7 @@ export default function Home() {
                 href="/chat"
                 className="inline-block rounded-lg bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
               >
-                AIとチャットを始める
+                Y.Arai Cloneとチャットを始める
               </Link>
             </div>
 
