@@ -43,5 +43,6 @@
 
 ## イメージ動画
 
-![イメージ動画](./public/data-save.mp4)
+![イメージ動画](/public/data-save.mp4)
+
 ![イメージ動画](./public/chat.mp4)
