@@ -71,7 +71,7 @@ export default function ChatPage() {
 
         <div className="border rounded-lg h-[600px] flex flex-col">
           <div className="p-4 border-b">
-            <h1 className="text-xl font-semibold">AIアシスタントとチャット</h1>
+            <h1 className="text-xl font-semibold">Y.Arai Cloneとチャット</h1>
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-4">

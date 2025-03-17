@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Y.Arai Clone AI アシスタント
 
-## Getting Started
+このアプリケーションは、RAG を使ったチャット bot アプリケーションです。
 
-First, run the development server:
+## 主な機能
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### チャット機能
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- AI アシスタントとリアルタイムでチャットが可能
+- 会話履歴の表示
+- レスポンシブデザイン対応
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 管理機能
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- AI の学習データを管理
+- テキストデータの登録
+- PDF ファイルからの学習データ抽出
 
-## Learn More
+## 技術スタック
 
-To learn more about Next.js, take a look at the following resources:
+- フロントエンド
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  - Next.js
+  - TypeScript
+  - Tailwind CSS
+  - shadcn/ui
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- バックエンド
+  - OpenAI API
+  - Supabase
+  - Embeddings 技術を活用した類似文書検索
 
-## Deploy on Vercel
+## 使い方
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. ホーム画面から「Y.Arai Clone とチャットを始める」をクリック
+2. チャット画面でメッセージを入力
+3. AI アシスタントからの応答を受け取る
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+管理者の場合：
+
+1. ホーム画面から「管理画面へ」をクリック
+2. テキストまたは PDF ファイルで学習データを登録可能
+
+## イメージ動画
+
+![イメージ動画](./public/data-save.mov)
+![イメージ動画](./public/chat.mov)

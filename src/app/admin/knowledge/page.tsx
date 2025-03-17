@@ -4,11 +4,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { Upload, Save } from "lucide-react";
+import { Save } from "lucide-react";
 
 export default function KnowledgePage() {
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -21,6 +22,7 @@ export default function KnowledgePage() {
   const handleTextSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const res = await fetch("/api/embeddings", {
         method: "POST",
         headers: {
@@ -34,6 +36,8 @@ export default function KnowledgePage() {
     } catch (error) {
       console.error(error);
       alert("エラーが発生しました");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -41,6 +45,7 @@ export default function KnowledgePage() {
     e.preventDefault();
     if (!file) return;
     try {
+      setIsLoading(true);
       const formData = new FormData();
       formData.append("file", file);
       const res = await fetch("/api/embeddings/pdf", {
@@ -53,6 +58,8 @@ export default function KnowledgePage() {
     } catch (error) {
       console.error(error);
       alert("エラーが発生しました");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -87,7 +94,7 @@ export default function KnowledgePage() {
           </div>
           <Button type="submit">
             <Save className="mr-2 h-4 w-4" />
-            ファイルを保存
+            {isLoading ? "保存中..." : "ファイルを保存"}
           </Button>
         </form>
       </div>
